@@ -11,11 +11,18 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative w-full h-screen flex flex-col items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "url('/hero_bg.jpg')" }}>
+      <div
+        className="relative w-full h-screen flex flex-col items-center justify-center text-center bg-cover bg-center"
+        style={{ backgroundImage: "url('/hero_bg.jpg')" }}
+      >
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-white max-w-3xl">
-          <h1 className="text-7xl font-extrabold leading-tight uppercase">Gartneri Lau Konge</h1>
-          <p className="mt-4 text-xl max-w-xl mx-auto">Blomster i Konge Kvalitet</p>
+          <h1 className="text-7xl font-extrabold leading-tight uppercase">
+            Gartneri Lau Konge
+          </h1>
+          <p className="mt-4 text-xl max-w-xl mx-auto">
+            Blomster i Konge Kvalitet
+          </p>
           <div className="mt-6 flex justify-center space-x-4">
             <Link href="/kort">
               <Button className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 text-lg shadow-lg rounded-full">
@@ -31,10 +38,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Features Section */}
+      {/*
       <section id="features" className="py-20 px-6">
         <FocusCards />
       </section>
+          */}
     </div>
   );
 }

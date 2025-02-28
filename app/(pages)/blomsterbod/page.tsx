@@ -1,7 +1,23 @@
-import Image from "next/image";
-import { ContactForm } from "@/components/form";
+import BlomsterbodGrid from "@/components/grid";
 
-export default function Kontakt() {
+
+export default async function Blomsterbod() {
+  const res = await fetch("https://strapi.laukonge.dk/api/blomsterbods", {
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store", // Disable caching to get fresh data
+  });
+
+  const { data } = await res.json();
+
+  // Ensure there's at least one entry
+  if (!data || data.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <h1>No data found</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full bg-[#f3f4f6]">
       {/* Background Image Section with Gradient Fade */}
@@ -23,12 +39,13 @@ export default function Kontakt() {
           Nuværende udvalg
         </h1>
       </div>
-      <div className="h-[20px] bg-[#f3f4f6]"></div>;
-      {/* Right side - Contact Form */}
-      <div className="">
-        <ContactForm />
-      </div>
-      ;<div className="h-[80px] bg-[#f3f4f6]"></div>
+
+      <div className="h-[20px] bg-[#f3f4f6]"></div>
+
+      <BlomsterbodGrid />
+
+      {/* Bottom Spacer with Matching Background */}
+      <div className="h-[80px] bg-[#f3f4f6]"></div>
     </div>
   );
 }
