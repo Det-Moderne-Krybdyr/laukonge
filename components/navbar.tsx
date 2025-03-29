@@ -9,16 +9,12 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const hiddenPaths = [
-    "/login",
-  ];
+  const hiddenPaths = ["/login"];
 
   if (hiddenPaths.includes(pathname)) {
     return null; // Hide the navbar
   }
 
-  // Determine text color
-  //const linkColor = pathname === "/" ? "text-white" : "text-green-600";
   const linkColor = "text-white";
 
   return (
@@ -72,7 +68,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-md py-4 text-center">
-          <div className="flex flex-col space-y-4 uppercase text-lgfont-semibold">
+          <div className="flex flex-col space-y-4 uppercase text-lg font-semibold">
             <Link
               href="/"
               className="text-gray-800 hover:text-green-600"
@@ -81,18 +77,18 @@ export default function Navbar() {
               Hjem
             </Link>
             <Link
-              href="/services"
+              href="/blomsterbod"
               className="text-gray-800 hover:text-green-600"
               onClick={() => setIsOpen(false)}
             >
-              Tjenester
+              Blomsterbod
             </Link>
             <Link
-              href="/gallery"
+              href="/historien"
               className="text-gray-800 hover:text-green-600"
               onClick={() => setIsOpen(false)}
             >
-              Galleri
+              Historien
             </Link>
             <Link
               href="/kontakt"
@@ -100,6 +96,13 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
             >
               Kontakt
+            </Link>
+            <Link
+              href="/login"
+              className="text-gray-800 hover:text-green-600"
+              onClick={() => setIsOpen(false)}
+            >
+              Login
             </Link>
           </div>
         </div>

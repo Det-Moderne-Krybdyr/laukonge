@@ -1,11 +1,27 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import { LayoutGrid } from "./ui/layout-grid";
 
+// Rich text child (e.g. plain text, bold, italic, etc.)
+interface RichTextChild {
+  text: string;
+  bold?: boolean;
+  italic?: boolean;
+  type?: string;
+}
+
+// Rich text block (e.g. paragraph, heading)
+interface RichTextBlock {
+  type: string;
+  level?: number;
+  children: RichTextChild[];
+}
+
+// Main item interface
 interface BlomsterbodItem {
   id: number;
   title: string;
-  description: { children: { text: string }[] }[];
+  description: RichTextBlock[];
   image?: { url: string } | null;
 }
 
@@ -24,7 +40,12 @@ export default function BlomsterbodGrid() {
           }
         );
         const { data } = await res.json();
-        setItems(data);
+        setItems(data.map((entry: any) => ({
+          id: entry.id,
+          title: entry.title,
+          description: entry.description,
+          image: entry.image,
+        })));
       } catch (error) {
         console.error("Failed to fetch blomsterbod data", error);
       } finally {
@@ -55,10 +76,42 @@ export default function BlomsterbodGrid() {
     content: (
       <div>
         <p className="font-bold md:text-4xl text-xl text-white">{item.title}</p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-          {item.description[0]?.children[0]?.text || "No description available"}
-        </p>
+        <div className="space-y-2 my-4 max-w-lg text-neutral-200">
+          {item.description?.length ? (
+            item.description.map((block, i) => {
+              const children = block.children?.map((child, j) => {
+                let className = "";
+                if (child.bold) className += " font-bold";
+                if (child.italic) className += " italic";
+
+                return (
+                  <span key={j} className={className}>
+                    {child.text}
+                  </span>
+                );
+              });
+
+              if (block.type === "heading") {
+                const level = Math.min(Math.max(block.level || 3, 1), 6);
+                const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+                
+                return (
+                  <HeadingTag key={i} className="text-white font-semibold text-lg">
+                    {children}
+                  </HeadingTag>
+                );
+              }
+
+              return (
+                <p key={i} className="text-white text-base font-normal">
+                  {children}
+                </p>
+              );
+            })
+          ) : (
+            <p>No description available</p>
+          )}
+        </div>
       </div>
     ),
     className:
